@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Roboto-Black.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://main.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 1 )
+
+[node name="main" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 481.0
+margin_bottom = 60.0
+custom_fonts/font = SubResource( 1 )
+text = "FPS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 783.214
+margin_top = 34.1419
+margin_right = 958.214
+margin_bottom = 60.1419
+custom_fonts/font = SubResource( 1 )
+text = "Max speed"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 510.638
+margin_top = 33.8581
+margin_right = 710.638
+margin_bottom = 63.8581
+custom_fonts/font = SubResource( 2 )
+text = "Max force"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="speed" type="HSlider" parent="."]
+margin_left = 753.867
+margin_top = 22.3921
+margin_right = 976.867
+margin_bottom = 38.3921
+min_value = 50.0
+max_value = 1000.0
+step = 10.0
+value = 300.0
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="force" type="HSlider" parent="."]
+margin_left = 502.478
+margin_top = 22.2246
+margin_right = 712.478
+margin_bottom = 38.2246
+min_value = 1.0
+max_value = 500.0
+step = 1.0
+value = 50.0
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="value_changed" from="speed" to="." method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="force" to="." method="_on_force_value_changed"]
