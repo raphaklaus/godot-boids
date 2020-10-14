@@ -8,6 +8,7 @@ var keep_steering_away_walls = false
 var obstacle_to_steer_away
 var colliding_count = 0
 var neighbor_boids = Array()
+var neighbor_obstacles = Array()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -72,11 +73,21 @@ func move(delta):
 	
 	velocity = velocity + alignment()
 	velocity = velocity + cohesion()
+	velocity = velocity +  steer_away()
 	
 	velocity = velocity.clamped(MAX_SPEED)
 	
 	rotation_degrees = rad2deg(atan2(velocity.y, velocity.x))
 	position += velocity * delta
+
+func steer_away():
+	if len(neighbor_obstacles) == 0:
+		return Vector2.ZERO
+	
+	var ahead = global_position + velocity.normalized() * 60
+	var thing = neighbor_obstacles[0]
+	var force = ahead - thing.global_position
+	return force.normalized() * MAX_SPEED / 10
 
 func cohesion():
 	if len(neighbor_boids) == 0: 
@@ -140,9 +151,21 @@ func _on_neighbor_area_area_entered(area):
 		if index == -1:
 			neighbor_boids.append(boid)
 
+	if area.is_in_group("obstacles_area"):
+		var obstacle = area.get_parent()
+		var index = neighbor_obstacles.find(obstacle)
+		if index == -1:
+			neighbor_obstacles.append(obstacle)
+
 func _on_neighbor_area_area_exited(area):
 	if area.is_in_group("neighbor_area"):
 		var boid = area.get_parent()
 		var index = neighbor_boids.find(boid)
 		if index >= 0:
 			neighbor_boids.erase(boid)
+			
+	if area.is_in_group("obstacles_area"):
+		var obstacle = area.get_parent()
+		var index = neighbor_obstacles.find(obstacle)
+		if index >= 0:
+			neighbor_obstacles.erase(obstacle)

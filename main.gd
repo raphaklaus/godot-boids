@@ -2,7 +2,6 @@ extends Node2D
 
 const Entity = preload("res://entity.tscn")
 var click_cooldown = 0
-const MAX_SPEED = 300
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
