@@ -84,7 +84,7 @@ func steer_away():
 	if len(neighbor_obstacles) == 0:
 		return Vector2.ZERO
 	
-	var ahead = global_position + velocity.normalized() * 60
+	var ahead = global_position + velocity.normalized() * 1
 	var thing = neighbor_obstacles[0]
 	var force = ahead - thing.global_position
 	return force.normalized() * MAX_SPEED / 10
