@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Roboto-Black.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
-[ext_resource path="res://obstacle.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -11,9 +10,6 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=2]
 size = 20
 font_data = ExtResource( 1 )
-
-[sub_resource type="CircleShape2D" id=3]
-radius = 50.0
 
 [node name="main" type="Node2D"]
 script = ExtResource( 2 )
@@ -59,7 +55,7 @@ margin_top = 22.3921
 margin_right = 976.867
 margin_bottom = 38.3921
 min_value = 50.0
-max_value = 1000.0
+max_value = 800.0
 step = 10.0
 value = 500.0
 ticks_on_borders = true
@@ -73,46 +69,12 @@ margin_top = 22.2246
 margin_right = 712.478
 margin_bottom = 38.2246
 min_value = 1.0
-max_value = 500.0
+max_value = 50.0
 step = 1.0
 value = 15.0
 ticks_on_borders = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 323.956, 156.614 )
-texture = ExtResource( 3 )
-
-[node name="Area2D" type="Area2D" parent="Sprite" groups=[
-"obstacles_area",
-]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
-shape = SubResource( 3 )
-
-[node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 594.276, 233.849 )
-texture = ExtResource( 3 )
-
-[node name="Area2D" type="Area2D" parent="Sprite2" groups=[
-"obstacles_area",
-]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2/Area2D"]
-shape = SubResource( 3 )
-
-[node name="Sprite3" type="Sprite" parent="."]
-position = Vector2( 319.235, 353.83 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 3 )
-
-[node name="Area2D" type="Area2D" parent="Sprite3" groups=[
-"obstacles_area",
-]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite3/Area2D"]
-shape = SubResource( 3 )
 [connection signal="value_changed" from="speed" to="." method="_on_HSlider_value_changed"]
 [connection signal="value_changed" from="force" to="." method="_on_force_value_changed"]

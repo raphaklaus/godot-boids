@@ -17,7 +17,7 @@ func _ready():
 func initialize(pos, goal):
 	global_position = pos
 	if goal == null:
-		velocity = randomly_choose_place() * MAX_SPEED
+		velocity = Vector2(300, 0) #randomly_choose_place() * MAX_SPEED
 	else:
 		velocity = goal
 	
