@@ -28,7 +28,5 @@ shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="neighbor_area"]
 shape = SubResource( 2 )
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
 [connection signal="area_entered" from="neighbor_area" to="." method="_on_neighbor_area_area_entered"]
 [connection signal="area_exited" from="neighbor_area" to="." method="_on_neighbor_area_area_exited"]

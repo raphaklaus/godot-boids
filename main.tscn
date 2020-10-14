@@ -15,8 +15,10 @@ font_data = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="."]
-margin_right = 481.0
-margin_bottom = 60.0
+margin_left = 18.271
+margin_top = 12.5613
+margin_right = 151.271
+margin_bottom = 41.5613
 custom_fonts/font = SubResource( 1 )
 text = "FPS"
 __meta__ = {
@@ -55,7 +57,7 @@ margin_bottom = 38.3921
 min_value = 50.0
 max_value = 1000.0
 step = 10.0
-value = 300.0
+value = 500.0
 ticks_on_borders = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -69,7 +71,7 @@ margin_bottom = 38.2246
 min_value = 1.0
 max_value = 500.0
 step = 1.0
-value = 50.0
+value = 15.0
 ticks_on_borders = true
 __meta__ = {
 "_edit_use_anchors_": false
