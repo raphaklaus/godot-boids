@@ -67,7 +67,6 @@ margin_right = 712.478
 margin_bottom = 38.2246
 min_value = 1.0
 max_value = 50.0
-step = 1.0
 value = 15.0
 tick_count = 50
 ticks_on_borders = true

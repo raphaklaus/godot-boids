@@ -1,5 +1,6 @@
 extends Node2D
 
+var rng = RandomNumberGenerator.new()
 var MAX_SPEED = Controller.get_max_speed()
 var MAX_FORCE = Controller.get_max_force()
 var velocity = Vector2()
@@ -17,7 +18,7 @@ func _ready():
 func initialize(pos, goal):
 	global_position = pos
 	if goal == null:
-		velocity = Vector2(300, 0) #randomly_choose_place() * MAX_SPEED
+		velocity = randomly_choose_place() * MAX_SPEED
 	else:
 		velocity = goal
 	
@@ -39,10 +40,11 @@ func randomly_choose_place():
 		Vector2(0, -1),
 	]
 	
-	randomize()
-	var chosen = places[randi()% len(places)]
-
-	return Vector2(chosen)
+	rng.randomize()
+	return Vector2(
+		rng.randf_range(-1.0, 1.0),
+		rng.randf_range(-1.0, 1.0)
+	)
 
 func move(delta):
 	if global_position.x > 950:
