@@ -20,7 +20,7 @@ func _process(_delta):
 	$Label2.text = "Speed: %s" % Controller.get_max_speed()
 	$Label3.text = "Force: %s" % Controller.get_max_force()
 
-	if not disable_controls and OS.get_ticks_msec() - click_cooldown > 50:
+	if not disable_controls and OS.get_ticks_msec() - click_cooldown > 25:
 		if Input.is_mouse_button_pressed(2):
 			click_cooldown = OS.get_ticks_msec()
 			var obstacle = Obstacle.instance()
