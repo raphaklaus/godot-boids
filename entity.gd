@@ -12,18 +12,31 @@ var separation_boids = Array()
 var neighbor_boids = Array()
 var neighbor_obstacles = Array()
 
+var SCREEN_CENTER = OS.get_window_size() / 2
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
 func initialize(pos, goal):
 	global_position = pos
+	var creation_velocity = global_position
+	var creation_angle = global_position.angle_to_point(SCREEN_CENTER)
+	var new_vel = Vector2(0,0)
+	new_vel.x = creation_angle * cos(creation_angle)
+	new_vel.y = creation_angle * sin(creation_angle)
+
+#	print("center", OS.get_window_size())
+	print(rad2deg(creation_angle))
+	print(new_vel)
+
 	if goal == null:
-		velocity = randomly_choose_place() * MAX_SPEED/3
+		velocity = new_vel * MAX_SPEED/3
 	else:
 		velocity = goal
 	
 	modulate = Color.from_hsv(randf(), 0.8, 1.0)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	MAX_SPEED = Controller.get_max_speed()
@@ -38,34 +51,38 @@ func randomly_choose_place():
 	)
 
 func move(delta):
-	if global_position.x > 1050:
-		global_position = Vector2(0, global_position.y)
-#		keep_steering_away_walls = true
-#		obstacle_to_steer_away = Vector2(global_position.x + 10, global_position.y)
+#	if global_position.x > 1050:
+	if global_position.x > (1000 - 32):
+#		global_position = Vector2(0, global_position.y)
+		keep_steering_away_walls = true
+		obstacle_to_steer_away = Vector2(global_position.x + 10, global_position.y)
 		
-	elif global_position.x < -50:
-#		keep_steering_away_walls = true
-#		obstacle_to_steer_away = Vector2(global_position.x - 10, global_position.y)
-		global_position = Vector2(1000, global_position.y)
+#	elif global_position.x < -50:
+	elif global_position.x < 32:
+		keep_steering_away_walls = true
+		obstacle_to_steer_away = Vector2(global_position.x - 10, global_position.y)
+#		global_position = Vector2(1000, global_position.y)
 
-	elif global_position.y > 650:
-#		keep_steering_away_walls = true
-#		obstacle_to_steer_away = Vector2(global_position.x, global_position.y + 10)
-		global_position = Vector2(global_position.x, 0)
+#	elif global_position.y > 650:
+	elif global_position.y > 600 - 32:
+		keep_steering_away_walls = true
+		obstacle_to_steer_away = Vector2(global_position.x, global_position.y + 10)
+#		global_position = Vector2(global_position.x, 0)
 
-	elif global_position.y < -50:
-#		keep_steering_away_walls = true
-#		obstacle_to_steer_away = Vector2(global_position.x, global_position.y - 10)
-		global_position = Vector2(global_position.x, 600)
+#	elif global_position.y < -50:
+	elif global_position.y < 32:
+		keep_steering_away_walls = true
+		obstacle_to_steer_away = Vector2(global_position.x, global_position.y - 10)
+#		global_position = Vector2(global_position.x, 600)
 	else:
 		keep_steering_away_walls = false
 
 	for boid in separation_boids:
 		var obstacle = boid.global_position
-		velocity = velocity + (separate(obstacle) * 1.5)
+		velocity = velocity + (separate(obstacle) * 2.5)
 
-#	if keep_steering_away_walls:
-#		velocity = velocity + flee(obstacle_to_steer_away)
+	if keep_steering_away_walls:
+		velocity = velocity + flee(obstacle_to_steer_away) * MAX_SPEED
 	
 	velocity = velocity + alignment()
 	velocity = velocity + cohesion()
@@ -136,9 +153,10 @@ func seek(target):
 	return steer.clamped(MAX_FORCE)
 
 func flee(target):
+#	print(velocity)
 	var desired_velocity = Vector2(target - global_position).normalized() * MAX_SPEED
 	var steer = (-1 * desired_velocity) - velocity
-	return steer.clamped(MAX_FORCE)
+	return steer.clamped(MAX_FORCE / 20)
 
 func _on_neighbor_area_area_entered(area):
 	if area.is_in_group("neighbor_area"):
