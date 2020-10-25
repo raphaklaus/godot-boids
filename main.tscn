@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Roboto-Black.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -6,37 +6,18 @@
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
-font_data = ExtResource( 1 )
-
 [node name="main" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="speed" type="HSlider" parent="."]
 margin_left = 753.867
-margin_top = 22.3921
-margin_right = 976.867
-margin_bottom = 38.3921
+margin_top = 30.0
+margin_right = 923.867
+margin_bottom = 46.0
 min_value = 50.0
 max_value = 800.0
 step = 10.0
-value = 500.0
-tick_count = 80
-ticks_on_borders = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="force" type="HSlider" parent="."]
-margin_left = 502.478
-margin_top = 22.2246
-margin_right = 712.478
-margin_bottom = 38.2246
-min_value = 1.0
-max_value = 50.0
-value = 3.0
-tick_count = 50
-ticks_on_borders = true
+value = 300.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -54,9 +35,9 @@ __meta__ = {
 
 [node name="Label2" type="Label" parent="."]
 margin_left = 755.0
-margin_top = 37.0
+margin_top = 50.0
 margin_right = 975.0
-margin_bottom = 59.0
+margin_bottom = 72.0
 custom_fonts/font = SubResource( 1 )
 text = "Speed"
 __meta__ = {
@@ -64,15 +45,72 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="."]
-margin_left = 511.0
-margin_top = 37.0
-margin_right = 711.0
-margin_bottom = 56.0
-custom_fonts/font = SubResource( 2 )
-text = "Force"
+margin_left = 316.076
+margin_top = 50.0
+margin_right = 457.076
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 1 )
+text = "Alignment"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="mouse_exited" from="speed" to="." method="_on_speed_mouse_exited"]
-[connection signal="value_changed" from="speed" to="." method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="force" to="." method="_on_force_value_changed"]
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 123.673
+margin_top = 50.0
+margin_right = 264.673
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 1 )
+text = "Separation"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label5" type="Label" parent="."]
+margin_left = 524.356
+margin_top = 50.0
+margin_right = 665.356
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 1 )
+text = "Cohesion"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="alignment" type="HSlider" parent="."]
+margin_left = 311.649
+margin_top = 29.066
+margin_right = 481.649
+margin_bottom = 45.066
+max_value = 10.0
+value = 10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="separation" type="HSlider" parent="."]
+margin_left = 118.522
+margin_top = 29.066
+margin_right = 288.522
+margin_bottom = 45.066
+max_value = 10.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cohesion" type="HSlider" parent="."]
+anchor_bottom = 40.0
+margin_left = 516.856
+margin_top = 30.0
+margin_right = 686.856
+margin_bottom = 46.0
+max_value = 10.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="value_changed" from="speed" to="." method="_on_speed_value_changed"]
+[connection signal="value_changed" from="alignment" to="." method="_on_alignment_value_changed"]
+[connection signal="value_changed" from="separation" to="." method="_on_separation_value_changed"]
+[connection signal="value_changed" from="cohesion" to="." method="_on_cohesion_value_changed"]

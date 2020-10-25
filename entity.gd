@@ -1,8 +1,11 @@
 extends Node2D
 
 var rng = RandomNumberGenerator.new()
+var MAX_FORCE = 0.5
 var MAX_SPEED = Controller.get_max_speed()
-var MAX_FORCE = Controller.get_max_force()
+var COHENSION_FORCE = Controller.get_cohension_level()
+var SEPARATION_FORCE = Controller.get_separation_level()
+var ALIGNMENT_FORCE = Controller.get_alingment_level()
 var velocity = Vector2()
 var keep_steering_away = false
 var keep_steering_away_walls = false
@@ -20,18 +23,9 @@ func _ready():
 
 func initialize(pos, goal):
 	global_position = pos
-	var creation_velocity = global_position
-	var creation_angle = global_position.angle_to_point(SCREEN_CENTER)
-	var new_vel = Vector2(0,0)
-	new_vel.x = creation_angle * cos(creation_angle)
-	new_vel.y = creation_angle * sin(creation_angle)
-
-#	print("center", OS.get_window_size())
-	print(rad2deg(creation_angle))
-	print(new_vel)
 
 	if goal == null:
-		velocity = new_vel * MAX_SPEED/3
+		velocity = randomly_choose_place() * MAX_SPEED
 	else:
 		velocity = goal
 	
@@ -39,8 +33,11 @@ func initialize(pos, goal):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	# print(global_position)
 	MAX_SPEED = Controller.get_max_speed()
-	MAX_FORCE = Controller.get_max_force()
+	COHENSION_FORCE = Controller.get_cohension_level()
+	SEPARATION_FORCE = Controller.get_separation_level()
+	ALIGNMENT_FORCE = Controller.get_alingment_level()
 	move(delta)
 
 func randomly_choose_place():
@@ -79,10 +76,10 @@ func move(delta):
 
 	for boid in separation_boids:
 		var obstacle = boid.global_position
-		velocity = velocity + (separate(obstacle) * 2.5)
+		velocity = velocity + separate(obstacle)
 
 	if keep_steering_away_walls:
-		velocity = velocity + flee(obstacle_to_steer_away) * MAX_SPEED
+		velocity = velocity + flee(obstacle_to_steer_away) * MAX_SPEED * 5
 	
 	velocity = velocity + alignment()
 	velocity = velocity + cohesion()
@@ -113,21 +110,23 @@ func cohesion():
 		average_vel += boid.global_position
 		
 	average_vel /= count
-	return seek(average_vel)
+	return seek(average_vel) * COHENSION_FORCE
 
 func separate(obstacle):
 	var steer = Vector2()
 	var distance = global_position.distance_to(obstacle)
-	var diff_vector = global_position - obstacle
-	diff_vector = diff_vector.normalized()
-	diff_vector = diff_vector / distance
-	steer = steer + diff_vector
+	
+	if distance > 0:
+		var diff_vector = global_position - obstacle
+		diff_vector = diff_vector.normalized()
+		diff_vector = diff_vector / distance
+		steer = steer + diff_vector
 	
 	if steer.length() > 0:
 		steer = steer.normalized()
 		steer = steer * MAX_SPEED
 		steer -= velocity
-		steer = steer.clamped(MAX_FORCE)
+		steer = steer.clamped(SEPARATION_FORCE)
 	
 	return steer
 
@@ -145,7 +144,7 @@ func alignment():
 	average_velocity = average_velocity.normalized()
 	average_velocity *= MAX_SPEED
 	var steer = Vector2(average_velocity - velocity)
-	return steer.clamped(MAX_FORCE)
+	return steer.clamped(ALIGNMENT_FORCE)
 
 func seek(target):
 	var desired_velocity = Vector2(target - global_position).normalized() * MAX_SPEED
@@ -153,7 +152,6 @@ func seek(target):
 	return steer.clamped(MAX_FORCE)
 
 func flee(target):
-#	print(velocity)
 	var desired_velocity = Vector2(target - global_position).normalized() * MAX_SPEED
 	var steer = (-1 * desired_velocity) - velocity
 	return steer.clamped(MAX_FORCE / 20)
@@ -185,15 +183,12 @@ func _on_neighbor_area_area_exited(area):
 		if index >= 0:
 			neighbor_obstacles.erase(obstacle)
 
-
-
 func _on_separation_area_area_entered(area):
 	if area.is_in_group("separation_area"):
 		var entity = area.get_parent()
 		var index = separation_boids.find(entity)
 		if index == -1:
 			separation_boids.append(entity)
-
 
 func _on_separation_area_area_exited(area):
 	if area.is_in_group("separation_area"):
