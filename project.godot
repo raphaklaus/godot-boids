@@ -16,13 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="boids"
-run/main_scene="res://main.tscn"
+run/main_scene="res://scenes/main.tscn"
 boot_splash/bg_color=Color( 0.0156863, 0.00784314, 0.00784314, 1 )
 config/icon="res://icon.png"
 
 [autoload]
 
-Controller="*res://Controller.tscn"
+Controller="*res://scenes/Controller.tscn"
 
 [display]
 

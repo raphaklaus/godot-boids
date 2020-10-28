@@ -1,7 +1,7 @@
 extends Node2D
 
-const Entity = preload("res://entity.tscn")
-const Obstacle = preload("res://Obstacle.tscn")
+const Entity = preload("res://scenes/entity.tscn")
+const Obstacle = preload("res://scenes/Obstacle.tscn")
 var click_cooldown = 0
 var disable_controls = false
 var SCREEN_CENTER = OS.get_window_size() / 2
@@ -21,13 +21,13 @@ func _ready():
 	$alignment.connect("gui_input", self, "on_gui_input")
 	$alignment.connect("mouse_exited", self, "on_gui_mouse_exited")
 
-	for i in range(30):
+	for i in range(20):
 		create_boid(Vector2(200,150))
 
-	for i in range(30):
+	for i in range(20):
 		create_boid(Vector2(900,500))
 
-	for i in range(15):
+	for i in range(10):
 		create_boid(SCREEN_CENTER)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

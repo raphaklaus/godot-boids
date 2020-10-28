@@ -33,7 +33,6 @@ func initialize(pos, goal):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# print(global_position)
 	MAX_SPEED = Controller.get_max_speed()
 	COHENSION_FORCE = Controller.get_cohension_level()
 	SEPARATION_FORCE = Controller.get_separation_level()
@@ -48,29 +47,18 @@ func randomly_choose_place():
 	)
 
 func move(delta):
-#	if global_position.x > 1050:
 	if global_position.x > (1000 - 32):
-#		global_position = Vector2(0, global_position.y)
 		keep_steering_away_walls = true
-		obstacle_to_steer_away = Vector2(global_position.x + 10, global_position.y)
-		
-#	elif global_position.x < -50:
+		obstacle_to_steer_away = Vector2(global_position.x + 10, global_position.y)	
 	elif global_position.x < 32:
 		keep_steering_away_walls = true
 		obstacle_to_steer_away = Vector2(global_position.x - 10, global_position.y)
-#		global_position = Vector2(1000, global_position.y)
-
-#	elif global_position.y > 650:
 	elif global_position.y > 600 - 32:
 		keep_steering_away_walls = true
 		obstacle_to_steer_away = Vector2(global_position.x, global_position.y + 10)
-#		global_position = Vector2(global_position.x, 0)
-
-#	elif global_position.y < -50:
 	elif global_position.y < 32:
 		keep_steering_away_walls = true
 		obstacle_to_steer_away = Vector2(global_position.x, global_position.y - 10)
-#		global_position = Vector2(global_position.x, 600)
 	else:
 		keep_steering_away_walls = false
 
